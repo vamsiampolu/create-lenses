@@ -1,14 +1,19 @@
 const curry = require('curry')
 const lens = (getter, setter) => ({getter, setter})
 
-const prop = key => obj => obj[key]
-const path = arr => obj => {
+const prop = curry(function prop (key, obj) {
+  return obj[key]
+})
+
+const path = curry(function path (arr, obj) {
   return arr.reduce((acc, seg) => {
     return acc && acc[seg]
   }, obj)
-}
+})
 
-const assoc = key => value => obj => Object.assign({}, obj, {[key]: value})
+const assoc = curry(function assoc (key, value, obj) {
+  return Object.assign({}, obj, {[key]: value})
+})
 
 const assocPath = curry(function assocPath (arr, value, obj) {
   if (Array.isArray(arr)) {
@@ -29,12 +34,18 @@ const assocPath = curry(function assocPath (arr, value, obj) {
 const lensProp = key => ({getter: prop(key), setter: assoc(key)})
 const lensPath = arr => ({getter: path(arr), setter: assocPath(arr)})
 
-const view = lens => obj => lens.getter(obj)
-const set = lens => value => obj => lens.setter(value)(obj)
-const over = lens => fn => obj => {
+const view = curry(function view (lens, obj) {
+  return lens.getter(obj)
+})
+
+const set = curry(function (lens, value, obj) {
+  return lens.setter(value)(obj)
+})
+
+const over = curry(function over (lens, fn, obj) {
   const value = view(lens)(obj)
   return set(lens)(fn(value))(obj)
-}
+})
 
 module.exports = {
   lens,

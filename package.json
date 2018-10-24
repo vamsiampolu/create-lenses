@@ -3,13 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vamsiampolu/create-lenses"
+  },
   "scripts": {
     "test": "node index.test.js"
   },
   "dependencies": {
-    "curry": "^1.2.0"
+    "curry": "1.2.0"
   },
   "devDependencies": {
-    "test-runner": "^0.5.1"
+    "test-runner": "0.5.1"
   }
 }
